@@ -41,9 +41,7 @@ There are multiple special cases that have to be taken into account to avoid unw
 
 ### Accurately mapping out the colors of the scrambled cube
 
-The program is forced to track how each sticker on each piece moves for every possible move with complete accuracy. The theory isn't complicated, but implementing it was by far the most tedious part of the project.
-
-### Implementing GUI
+The program is forced to track how each sticker on each piece moves for every possible move with complete accuracy. The implementation was by far the most tedious part of the project.
 
 Figuring out all the logic needed to make the timer, scramble, cube graphics and solve history all work the way the should across multiple iterations was somewhat challenging, since this was my first time using Tkinter.
 
@@ -57,7 +55,7 @@ Figuring out all the logic needed to make the timer, scramble, cube graphics and
 
 ## Future improvements
 
-- Statisctics (Best single, Ao5, Ao12, Best average, ...)
+- Statistics (Best single, Ao5, Ao12, Best average, ...)
 - Ability to look at a previous time and the corresponding scramble
 - Scrambles for other puzzles (2x2, 4x4, ...)
 - Better-looking interface
