@@ -1,0 +1,423 @@
+# Source code
+
+import random
+import tkinter as tk
+import time
+
+
+# Generate a scramble
+
+moves = [('R', 'R\'', 'R2'), ('L', 'L\'', 'L2'), ('U', 'U\'', 'U2'), ('D', 'D\'', 'D2'), ('F', 'F\'', 'F2'), ('B', 'B\'', 'B2')]
+opp_face_moves = ('RL', 'UD', 'FB') # to prevent cases like R, L, R', ...
+
+def generate_scramble():
+    global scramble
+
+    number_of_moves = 0
+    scramble = ''
+    list_of_faces = []
+    opp_face_list = []
+    attempts = 0
+
+    while number_of_moves < 21: # length of scramble
+
+        # randomly chooses a face to turn
+        selected_face = random.randint(1,6)
+        face_to_turn = moves[selected_face - 1]
+        list_of_faces.append(face_to_turn)
+        opp_face_list.append(opp_face_moves[(selected_face - 1) // 2])
+        attempts += 1
+
+        # checks for consecutive moves of the same face or repeating moves from opposite faces (e.g. R, L, R', ...)
+        if attempts > 1 and list_of_faces[attempts - 1] == list_of_faces[attempts - 2]:
+            continue
+
+        if attempts > 2 and opp_face_list[attempts - 1] == opp_face_list[attempts - 2] == opp_face_list[attempts - 3]:
+            continue
+
+        # randomly chooses which move out of three once face has been decided
+        move_from_face = random.randint(1, 3)
+        move = face_to_turn[move_from_face - 1]
+        scramble += move + ' '
+        number_of_moves += 1
+
+    scramble_as_list = scramble.split(' ')
+
+    # Taking the scramble and drawing how the cube looks in that state
+
+
+    # Scramble done with white top, green front
+
+    w1 = w2 = w3 = w4 = w5 = w6 = w7 = w8 = w9 = 'W'
+    y1 = y2 = y3 = y4 = y5 = y6 = y7 = y8 = y9 = 'Y'
+    g1 = g2 = g3 = g4 = g5 = g6 = g7 = g8 = g9 = 'G'
+    b1 = b2 = b3 = b4 = b5 = b6 = b7 = b8 = b9 = 'B'
+    r1 = r2 = r3 = r4 = r5 = r6 = r7 = r8 = r9 = 'R'
+    o1 = o2 = o3 = o4 = o5 = o6 = o7 = o8 = o9 = 'O'
+
+    ''' green_face  = [g1, g2, g3
+                       g4, g5, g6
+                       g7, g8, g9]
+        when the cube is oriented as it is when scrambling
+        
+        the orange face has the same pattern if you turn the cube to be white top, orange front
+        
+        and so on for other faces...
+        '''
+    for move in scramble_as_list:
+        # Just hard coding which sticker gets swapped with which in each move
+
+        # R
+
+        if move == 'R':
+            w3, b7, y3, g3 = g3, w3, b7, y3
+            w6, b4, y6, g6 = g6, w6, b4, y6
+            w9, b1, y9, g9 = g9, w9, b1, y9
+            r1, r3, r9, r7 = r7, r1, r3, r9
+            r2, r6, r8, r4 = r4, r2, r6, r8
+
+        if move == 'R\'':
+            w3, g3, y3, b7 = b7, w3, g3, y3
+            w6, g6, y6, b4 = b4, w6, g6, y6
+            w9, g9, y9, b1 = b1, w9, g9, y9
+            r1, r7, r9, r3 = r3, r1, r7, r9
+            r2, r4, r8, r6 = r6, r2, r4, r8
+
+        if move == 'R2':
+            w3, y3 = y3, w3
+            w6, y6 = y6, w6
+            w9, y9 = y9, w9
+            g3, b7 = b7, g3
+            g6, b4 = b4, g6
+            g9, b1 = b1, g9
+            r1, r9 = r9, r1
+            r2, r8 = r8, r2
+            r3, r7 = r7, r3
+            r4, r6 = r6, r4
+
+        # L
+
+        if move == 'L':
+            w1, g1, y1, b9 = b9, w1, g1, y1
+            w4, g4, y4, b6 = b6, w4, g4, y4
+            w7, g7, y7, b3 = b3, w7, g7, y7
+            o1, o3, o9, o7 = o7, o1, o3, o9
+            o2, o6, o8, o4 = o4, o2, o6, o8
+
+        if move == 'L\'':
+            w1, b9, y1, g1 = g1, w1, b9, y1
+            w4, b6, y4, g4 = g4, w4, b6, y4
+            w7, b3, y7, g7 = g7, w7, b3, y7
+            o1, o7, o9, o3 = o3, o1, o7, o9
+            o2, o4, o8, o6 = o6, o2, o4, o8
+
+        if move == 'L2':
+            w1, y1 = y1, w1
+            w4, y4 = y4, w4
+            w7, y7 = y7, w7
+            g1, b9 = b9, g1
+            g4, b6 = b6, g4
+            g7, b3 = b3, g7
+            o1, o9 = o9, o1
+            o2, o8 = o8, o2
+            o3, o7 = o7, o3
+            o4, o6 = o6, o4
+
+        # U
+
+        if move == 'U':
+            g1, o1, b1, r1 = r1, g1, o1, b1
+            g2, o2, b2, r2 = r2, g2, o2, b2
+            g3, o3, b3, r3 = r3, g3, o3, b3
+            w1, w3, w9, w7 = w7, w1, w3, w9
+            w2, w6, w8, w4 = w4, w2, w6, w8
+
+        if move == 'U\'':
+            g1, r1, b1, o1 = o1, g1, r1, b1
+            g2, r2, b2, o2 = o2, g2, r2, b2
+            g3, r3, b3, o3 = o3, g3, r3, b3
+            w1, w7, w9, w3 = w3, w1, w7, w9
+            w2, w4, w8, w6 = w6, w2, w4, w8
+
+        if move == 'U2':
+            g1, b1 = b1, g1
+            g2, b2 = b2, g2
+            g3, b3 = b3, g3
+            r1, o1 = o1, r1
+            r2, o2 = o2, r2
+            r3, o3 = o3, r3
+            w1, w9 = w9, w1
+            w2, w8 = w8, w2
+            w3, w7 = w7, w3
+            w4, w6 = w6, w4
+
+        # D
+
+        if move == 'D':
+            g7, r7, b7, o7 = o7, g7, r7, b7
+            g8, r8, b8, o8 = o8, g8, r8, b8
+            g9, r9, b9, o9 = o9, g9, r9, b9
+            y1, y3, y9, y7 = y7, y1, y3, y9
+            y2, y6, y8, y4 = y4, y2, y6, y8
+
+        if move == 'D\'':
+            g7, o7, b7, r7 = r7, g7, o7, b7
+            g8, o8, b8, r8 = r8, g8, o8, b8
+            g9, o9, b9, r9 = r9, g9, o9, b9
+            y1, y7, y9, y3 = y3, y1, y7, y9
+            y2, y4, y8, y6 = y6, y2, y4, y8
+
+        if move == 'D2':
+            g7, b7 = b7, g7
+            g8, b8 = b8, g8
+            g9, b9 = b9, g9
+            r7, o7 = o7, r7
+            r8, o8 = o8, r8
+            r9, o9 = o9, r9
+            y1, y9 = y9, y1
+            y2, y8 = y8, y2
+            y3, y7 = y7, y3
+            y4, y6 = y6, y4
+
+        # F
+
+        if move == 'F':
+            w7, r1, y3, o9 = o9, w7, r1, y3
+            w8, r4, y2, o6 = o6, w8, r4, y2
+            w9, r7, y1, o3 = o3, w9, r7, y1
+            g1, g3, g9, g7 = g7, g1, g3, g9
+            g2, g6, g8, g4 = g4, g2, g6, g8
+
+        if move == 'F\'':
+            w7, o9, y3, r1 = r1, w7, o9, y3
+            w8, o6, y2, r4 = r4, w8, o6, y2
+            w9, o3, y1, r7 = r7, w9, o3, y1
+            g1, g7, g9, g3 = g3, g1, g7, g9
+            g2, g4, g8, g6 = g6, g2, g4, g8
+
+        if move == 'F2':
+            w7, y3 = y3, w7
+            w8, y2 = y2, w8
+            w9, y1 = y1, w9
+            r1, o9 = o9, r1
+            r4, o6 = o6, r4
+            r7, o3 = o3, r7
+            g1, g9 = g9, g1
+            g2, g8 = g8, g2
+            g3, g7 = g7, g3
+            g4, g6 = g6, g4
+
+        # B
+
+        if move == 'B':
+            w1, o7, y9, r3 = r3, w1, o7, y9
+            w2, o4, y8, r6 = r6, w2, o4, y8
+            w3, o1, y7, r9 = r9, w3, o1, y7
+            b1, b3, b9, b7 = b7, b1, b3, b9
+            b2, b6, b8, b4 = b4, b2, b6, b8
+
+        if move == 'B\'':
+            w1, r3, y9, o7 = o7, w1, r3, y9
+            w2, r6, y8, o4 = o4, w2, r6, y8
+            w3, r9, y7, o1 = o1, w3, r9, y7
+            b1, b7, b9, b3 = b3, b1, b7, b9
+            b2, b4, b8, b6 = b6, b2, b4, b8
+
+        if move == 'B2':
+            w1, y9 = y9, w1
+            w2, y8 = y8, w2
+            w3, y7 = y7, w3
+            r3, o7 = o7, r3
+            r6, o4 = o4, r6
+            r9, o1 = o1, r9
+            b1, b9 = b9, b1
+            b2, b8 = b8, b2
+            b3, b7 = b7, b3
+            b4, b6 = b6, b4
+
+    cube = [
+        [w1, w2, w3, w4, w5, w6, w7, w8, w9],
+        [y1, y2, y3, y4, y5, y6, y7, y8, y9],
+        [g1, g2, g3, g4, g5, g6, g7, g8, g9],
+        [b1, b2, b3, b4, b5, b6, b7, b8, b9],
+        [r1, r2, r3, r4, r5, r6, r7, r8, r9],
+        [o1, o2, o3, o4, o5, o6, o7, o8, o9]
+    ]
+
+    draw_cube(cube)
+
+    return scramble
+
+
+
+
+
+
+# Making the timer
+
+is_running = False
+time_start_variable = False # Checks if timer is allowed to start
+
+def counting():
+    global time_start_variable
+    global timer
+    global elapsed_time
+    global start_time
+
+    if time_start_variable:
+        start_time = time.time()
+    if is_running:
+        time_start_variable = False
+
+        current_time = time.time()
+        elapsed_time = round(current_time - start_time, 2)
+
+
+        # Constantly updating timer
+        timer.destroy()
+        timer = tk.Label(root, text = elapsed_time, font = ('Arial', 100), bg = '#A52A2A', fg = 'black')
+        timer.place(x = 900, y = 400)
+
+        root.after(10, counting)
+
+
+space_long_enough = False
+started_to_hold = False
+space_presses = 0
+
+def press_space(_):
+    # declaring global variables
+    global time_start_variable
+    global is_running
+    global scramble_name
+    global space_presses
+    global started_to_hold
+    global time_starting_to_hold
+    global space_long_enough
+    global time_holding
+    global timer
+
+    if not started_to_hold: # Start the check for space press from first press
+        time_starting_to_hold = time.time()
+        started_to_hold = True
+
+    if not space_long_enough: # Adds space presses over time
+        space_presses += 1
+        current_time = time.time()
+        time_holding = current_time - time_starting_to_hold
+
+    # holding space gives many space presses in a row, checking if enough in a short time period to simulate holding down
+    if 1 < time_holding < 1.5 and space_presses > 16: # experimentally found values for suitable space press hold, works at least on my computer lol
+        space_long_enough = True
+        space_presses = 0
+
+    elif time_holding > 1.5: # If not holding down space the whole time, timer doesn't start
+        started_to_hold = False
+        space_presses = 0
+
+    if space_long_enough and not is_running: # Once space held long enough, timer starts
+        timer.destroy()
+        timer = tk.Label(root, text=elapsed_time, font=('Arial', 100), bg='#A52A2A', fg='green')
+        timer.place(x=900, y=400)
+
+    if is_running:
+        # Happens when timer is stopped by pressing space
+        # Resets variables for next solve
+        space_long_enough = False
+        is_running = False
+
+        generate_scramble()
+        scramble_name.destroy()
+        scramble_name = tk.Label(root, text = scramble, font = ('Arial', 30), bg = '#556B2F', fg = 'black', width = 84, height = 4)
+        scramble_name.place(x = 0, y = 0)
+
+        list_of_times.insert(0, elapsed_time)
+        list_of_times.place(x = 0, y = 185)
+
+def release_space(__):
+    global space_long_enough
+    global is_running
+    global time_start_variable
+
+    if space_long_enough and not is_running: # Starts timer once space held long enough
+        is_running = True
+        time_start_variable = True
+        counting()
+
+
+# Making window and GUI
+# I copied the stuff for drawing the colors of the scramble from ChatGPT cuz I didn't care to implement the graphics
+
+root = tk.Tk(className = 'not csTimer')
+root.configure(bg = '#A52A2A')
+
+canvas = tk.Canvas(root, width=300, height=300, bg='#A52A2A', highlightthickness=0)
+canvas.place(x=1500, y=600)
+
+# ChatGPT code
+
+color_map = {
+    'W': 'white',
+    'Y': 'yellow',
+    'G': 'green',
+    'B': 'blue',
+    'R': 'red',
+    'O': 'orange'
+}
+
+
+def draw_cube(cube):
+    canvas.delete("all")
+
+    size = 20  # size of each sticker
+
+    # positions for faces (U, D, F, B, R, L)
+    offsets = {
+        0: (size*3, 0),          # white (U)
+        1: (size*3, size*6),     # yellow (D)
+        2: (size*3, size*3),     # green (F)
+        3: (size*9, size*3),     # blue (B)
+        4: (size*6, size*3),     # red (R)
+        5: (0, size*3)           # orange (L)
+    }
+
+    for face_index, face in enumerate(cube):
+        x_offset, y_offset = offsets[face_index]
+
+        for i, sticker in enumerate(face):
+            row = i // 3
+            col = i % 3
+
+            x1 = x_offset + col * size
+            y1 = y_offset + row * size
+            x2 = x1 + size
+            y2 = y1 + size
+
+            canvas.create_rectangle(
+                x1, y1, x2, y2,
+                fill=color_map[sticker],
+                outline='black'
+            )
+
+
+# Rest is made by me again
+
+generate_scramble()
+elapsed_time = 0
+
+
+scramble_name = tk.Label(root, text = scramble, font = ('Arial', 30), bg = '#556B2F', fg = 'black', width = 84, height = 4)
+scramble_name.place(x = 0, y = 0)
+
+timer = tk.Label(root, text = elapsed_time, font = ('Arial', 100), bg = '#A52A2A', fg = 'black')
+timer.place(x = 900, y = 400)
+
+list_of_times = tk.Listbox(root, height = 50, width = 30, bg = '#556B2F', fg = 'black', font = ('Arial', 20))
+list_of_times.place(x = 0, y = 185)
+
+
+root.bind('<KeyPress-space>', press_space)
+root.bind('<KeyRelease-space>', release_space)
+
+
+root.mainloop()
