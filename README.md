@@ -1,6 +1,6 @@
 # Python Speedcubing Timer
 
-Made a timer for speedcubers similar to csTimer after ~ 2-3 weeks of learning Python.
+Made a timer for speedcubers similar to csTimer after ~ 2 weeks of learning Python.
 
 
 ## Overview
@@ -21,7 +21,7 @@ The idea is to create an interface with Python that generates a randomized legal
 
 ### Scramble generation
 
-The program constantly generates a random move and checks its validity. For example, the program is constantly checking that no two moves are moving the same face.
+The program constantly generates a random move and checks its validity. For example, the program is constantly checking that no two consecutive moves are moving the same face.
 
 ### Timer
 
