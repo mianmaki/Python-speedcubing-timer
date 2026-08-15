@@ -43,6 +43,8 @@ There are multiple special cases that have to be taken into account to avoid unw
 
 The program is forced to track how each sticker on each piece moves for every possible move with complete accuracy. The implementation was by far the most tedious part of the project.
 
+### GUI Development
+
 Figuring out all the logic needed to make the timer, scramble, cube graphics and solve history all work the way the should across multiple iterations was somewhat challenging, since this was my first time using Tkinter.
 
 
@@ -62,7 +64,7 @@ Figuring out all the logic needed to make the timer, scramble, cube graphics and
 - Timer during inspection (max 15s of inspections in WCA competitions)
 
 
-## Images
+## Images & Videos
 
 Interface with scramble and its graphic visualisation
 <img width="1919" height="1032" alt="kuva" src="https://github.com/user-attachments/assets/911aeffc-a07d-4dbf-96a9-96ce282313f2" />
