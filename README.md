@@ -68,3 +68,7 @@ Figuring out all the logic needed to make the timer, scramble, cube graphics and
 
 Interface with scramble and its graphic visualisation
 <img width="1919" height="1032" alt="kuva" src="https://github.com/user-attachments/assets/911aeffc-a07d-4dbf-96a9-96ce282313f2" />
+
+
+Example solve
+https://drive.google.com/file/d/1y7zknjSzN-ZEnbs_nNQRqEwnNNSJgYQP/view?usp=sharing
